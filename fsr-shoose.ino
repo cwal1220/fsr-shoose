@@ -1,12 +1,15 @@
-/* FSR testing sketch.
 
-Connect one end of FSR to power, the other end to Analog 0.
-Then connect one end of a 10K resistor from Analog 0 to ground
+const int fsrAnalogPins[] = {A0, A1, A2, A3, A4};  // the FSR and 10K pulldown are connected to a0, a1, a2, a3, a4
+const int ledPin = 9;
 
-For more information see www.ladyada.net/learn/sensors/fsr.html */
+const float ACC_GRAVITY = 9.80665;
+const int PULLUP_REGISTER_10K = 10000; // 10K resistor
 
-int fsrAnalogPins[5] = {A0, A1, A2, A3, A4};  // the FSR and 10K pulldown are connected to a0, a1, a2, a3, a4
-int PULLUP_REGISTER_10K = 10000; // 10K resistor
+// for moving average
+const int movingAverageWindowSize = 10;
+float movingAverageArray[movingAverageWindowSize] = {0,};
+int index = 0;
+float totalValue = 0;
 
 float getPressureNewtons(int analogPin)
 {
@@ -53,16 +56,37 @@ float getPressureNewtons(int analogPin)
 void setup(void)
 {
     Serial.begin(9600);
+    pinMode(ledPin, OUTPUT);
+    digitalWrite(ledPin, 0);
 }
 
 void loop(void)
 {
-    float totalPressureNewtons = 0;
-    for(int i=0; i<5; i++)
+    float pressureNewtons = 0;
+    float averageNewtons = 0;
+    float weight = 0;
+    pressureNewtons = getPressureNewtons(fsrAnalogPins[0]);
+
+    totalValue = totalValue - movingAverageArray[index] + pressureNewtons;
+    movingAverageArray[index] = pressureNewtons;
+    index = (index + 1) % movingAverageWindowSize;
+    averageNewtons = totalValue / movingAverageWindowSize;
+    weight = averageNewtons / ACC_GRAVITY;
+
+    if(weight > 1)
     {
-        totalPressureNewtons += getPressureNewtons(fsrAnalogPins[i]);
+        digitalWrite(ledPin, 1);
     }
-    Serial.print("Force in Newtons: ");
-    Serial.println(totalPressureNewtons);
-    delay(1000);
+    else
+    {
+        digitalWrite(ledPin, 0);
+    }
+
+
+    Serial.print("Result: ");
+    Serial.print(averageNewtons);
+    Serial.print("N, ");
+    Serial.print(weight);
+    Serial.print("kg \r\n");
+    delay(100);
 }
