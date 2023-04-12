@@ -17,7 +17,7 @@ float getPressureNewtons(int analogPin)
     int fsrVoltage;              // the analog reading converted to voltage
     unsigned long fsrResistance; // The voltage converted to resistance, can be very big so make "long"
     unsigned long fsrConductance;
-    long fsrForce; // Finally, the resistance converted to force
+    float fsrForce; // Finally, the resistance converted to force
 
     fsrReading = analogRead(analogPin);
 
@@ -49,7 +49,7 @@ float getPressureNewtons(int analogPin)
             fsrForce = fsrConductance - 1000;
             fsrForce /= 30; // Force in Newtons
         }
-        return fsrForce;
+        return fsrForce/5.5; // fine tuning
     }
 }
 
@@ -84,9 +84,10 @@ void loop(void)
 
 
     Serial.print("Result: ");
-    Serial.print(averageNewtons);
+    Serial.print(pressureNewtons);
     Serial.print("N, ");
     Serial.print(weight);
     Serial.print("kg \r\n");
     delay(100);
 }
+
