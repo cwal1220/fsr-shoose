@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>실시간 데이터 갱신 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function requestData() {
+            $.ajax({
+                url: '/requestData',
+                type: 'POST',
+                data: {
+                    // 데이터를 보내는 코드
+                },
+                success: function(data) {
+                    // 데이터를 받아서 처리하는 코드
+                    $('#left_0').html(data.left_0);
+                    $('#left_1').html(data.left_1);
+                    $('#left_2').html(data.left_2);
+                    $('#left_3').html(data.left_3);
+                    $('#left_4').html(data.left_4);
+                    $('#right_0').html(data.right_0);
+                    $('#right_1').html(data.right_1);
+                    $('#right_2').html(data.right_2);
+                    $('#right_3').html(data.right_3);
+                    $('#right_4').html(data.right_4);
+                }
+            });
+        }
+
+        setInterval(requestData, 100); // 1초마다 호출
+    </script>
+</head>
+<body>
+    <h1>실시간 데이터 갱신 페이지</h1>
+    <div id="left_0"></div>
+    <div id="left_1"></div>
+    <div id="left_2"></div>
+    <div id="left_3"></div>
+    <div id="left_4"></div>
+    <div id="right_0"></div>
+    <div id="right_1"></div>
+    <div id="right_2"></div>
+    <div id="right_3"></div>
+    <div id="right_4"></div>
+</body>
+</html>
