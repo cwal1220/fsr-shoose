@@ -3,10 +3,19 @@
 #include <ESP32WebServer.h>
 #include <EEPROM.h>
 #include <ESPmDNS.h>
-#include <HTTPClient.h>
+#include <PubSubClient.h>
 #include <ArduinoJson.h>
 
 #define EEPROM_LENGTH 1024
+
+#define WEIGHT_TOPIC "WEIGHT_230507/RIGHT"
+int count = 0;
+
+const char*   mqttServer = "138.2.126.137";
+const int     mqttPort = 1883;
+const char*   mqttUser = "chan";
+const char*   mqttPassword = "chan";
+
 
 char eRead[30];
 byte len;
@@ -16,11 +25,14 @@ char password[30];
 bool captive = true;
 
 WiFiClient espClient;
+PubSubClient client(espClient);
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 1, 1);
 DNSServer dnsServer;
 ESP32WebServer webServer(80);
-int count = 0;
+
+const int LOADCELL_DOUT_PIN = 12;
+const int LOADCELL_SCK_PIN = 13;
 
 String responseHTML = ""
     "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Wi-Fi Setting Page</title></head><body><center>"
@@ -44,53 +56,52 @@ void setup()
 
   ReadString(0, 30);
   if (!strcmp(eRead, ""))
-  {
-    setup_captive();    
-  }
+    setup_captive();
   else 
   {
     captive = false;
     strcpy(ssid, eRead);
     ReadString(30, 30);
     strcpy(password, eRead);
-    setup_runtime();  
-  }
 
+    setup_runtime();  
+    client.setServer(mqttServer, mqttPort);
+    while (!client.connected()) 
+    {
+      Serial.println("Connecting to MQTT...");
+      if (client.connect("IOT_WEIGHT_RIGHT", mqttUser, mqttPassword )) 
+      {
+        Serial.println("connected");
+      } 
+      else 
+      {
+        Serial.print("failed with state "); Serial.println(client.state());
+        ESP.restart();
+      }
+    }
+  }
 }
 
 void loop() {
   if (captive)
   {
-    Serial.println("Captive Mode");
     dnsServer.processNextRequest();
     webServer.handleClient();
   }
   else
   {
-    // 센서에서 데이터를 읽어옴
-    float sensorValue = analogRead(A0);
     String jsonString;
     StaticJsonDocument<200> sensorDataJson;
 
-    sensorDataJson["left_0"] = count;
-    sensorDataJson["left_1"] = count;
-    sensorDataJson["left_2"] = count;
-    sensorDataJson["left_3"] = count;
-    sensorDataJson["left_4"] = count++; 
+    sensorDataJson["right_0"] = count;
+    sensorDataJson["right_1"] = count;
+    sensorDataJson["right_2"] = count;
+    sensorDataJson["right_3"] = count;
+    sensorDataJson["right_4"] = count++; 
     serializeJson(sensorDataJson, jsonString);
-    
-    
-    // HTTP POST 요청을 생성
-    HTTPClient http;
-    http.begin("http://192.168.219.197:3004/update_left"); // 웹 서버 주소 입력
-    http.addHeader("Content-Type", "application/json"); // 요청 헤더 설정
-    int httpResponseCode = http.POST(jsonString); // 데이터 전송
-    http.end();
-  
-    // 전송 결과를 시리얼 모니터에 출력
-    Serial.println(httpResponseCode);
-    yield;
+    client.publish(WEIGHT_TOPIC, jsonString.c_str());
   }
+  client.loop();
 }
 
 
@@ -116,7 +127,7 @@ void setup_runtime() {
   Serial.print("Connected to "); Serial.println(ssid);
   Serial.print("IP address: "); Serial.println(WiFi.localIP());
 
-  if (MDNS.begin("FOOT_LEFT")) {
+  if (MDNS.begin("IOT_WEIGHT_RIGHT")) {
    Serial.println("MDNS responder started");
   }
   
@@ -128,7 +139,7 @@ void setup_runtime() {
 void setup_captive() {    
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
-  WiFi.softAP("FOOT_LEFT");
+  WiFi.softAP("IOT_WEIGHT_RIGHT");
   
   dnsServer.start(DNS_PORT, "*", apIP);
 
@@ -180,3 +191,7 @@ ICACHE_RAM_ATTR void initDevice() {
     ESP.restart();
 }
 
+float getWeight()
+{
+  return 100;
+}
