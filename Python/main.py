@@ -3,6 +3,7 @@ import os
 import serial
 import serial.tools.list_ports
 import time
+import json
 from PyQt5 import uic
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -24,14 +25,32 @@ class MainWidget(QWidget):
         self.mqttWorker = MqttWorker(self)
         self.mqttWorker.start()
 
-        self.mqttWorker.leftWeightSignal.connect(self.leftLabel.setText)
-        self.mqttWorker.rightWeightSignal.connect(self.rightLabel.setText)
+        self.mqttWorker.leftWeightSignal.connect(self.leftShooseUpdate)
+        self.mqttWorker.rightWeightSignal.connect(self.rightShooseUpdate)
         # self.setWindowFlag(Qt.FramelessWindowHint)
         # self.showFullScreen()
 
+    @pyqtSlot(dict)
+    def leftShooseUpdate(self, result) :
+        self.left0Label.setText(str(round(result["left_0"],2)))
+        self.left1Label.setText(str(round(result["left_1"],2)))
+        self.left2Label.setText(str(round(result["left_2"],2)))
+        self.left3Label.setText(str(round(result["left_3"],2)))
+        self.left4Label.setText(str(round(result["left_4"],2)))
+        self.leftAvgLabel.setText(str( round( ( result["left_0"]+result["left_1"]+result["left_2"]+result["left_3"]+result["left_4"] ) / 5,2) ))
+
+    @pyqtSlot(dict)
+    def rightShooseUpdate(self, result) :
+        self.right0Label.setText(str(round(result["right_0"],2)))
+        self.right1Label.setText(str(round(result["right_1"],2)))
+        self.right2Label.setText(str(round(result["right_2"],2)))
+        self.right3Label.setText(str(round(result["right_3"],2)))
+        self.right4Label.setText(str(round(result["right_4"],2)))
+        self.rightAvgLabel.setText(str(round((result["right_0"]+result["right_1"]+result["right_2"]+result["right_3"]+result["right_4"])/5,2)))
+
 class MqttWorker(QThread):
-    leftWeightSignal = pyqtSignal(str)
-    rightWeightSignal = pyqtSignal(str)
+    leftWeightSignal = pyqtSignal(dict)
+    rightWeightSignal = pyqtSignal(dict)
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -51,9 +70,9 @@ class MqttWorker(QThread):
         print("message qos=", message.qos)
         print("message retain flag= ", message.retain)
         if message.topic == "WEIGHT_230507/LEFT":
-            self.leftWeightSignal.emit(str(message.payload.decode("utf-8")))
+            self.leftWeightSignal.emit(json.loads(str(message.payload.decode("utf-8"))))
         else:
-            self.rightWeightSignal.emit(str(message.payload.decode("utf-8")))
+            self.rightWeightSignal.emit(json.loads(str(message.payload.decode("utf-8"))))
 
 
 if __name__ == '__main__':

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>940</width>
-    <height>467</height>
+    <width>1222</width>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,59 +16,284 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>280</x>
      <y>110</y>
-     <width>54</width>
-     <height>12</height>
+     <width>741</width>
+     <height>461</height>
     </rect>
    </property>
    <property name="text">
-    <string>Left</string>
+    <string/>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>250</y>
-     <width>54</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Right</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="leftLabel">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>90</y>
-     <width>731</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
+   <property name="pixmap">
+    <pixmap>foot.png</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="rightLabel">
+  <widget class="QLabel" name="left0Label">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>180</y>
-     <width>541</width>
-     <height>171</height>
+     <x>400</x>
+     <y>260</y>
+     <width>91</width>
+     <height>41</height>
     </rect>
    </property>
-   <property name="text">
-    <string>TextLabel</string>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
-   <property name="scaledContents">
-    <bool>true</bool>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="left1Label">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>310</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="left2Label">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>310</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="left3Label">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>380</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="left4Label">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>430</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right4Label">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>440</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right3Label">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>390</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right2Label">
+   <property name="geometry">
+    <rect>
+     <x>750</x>
+     <y>320</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right1Label">
+   <property name="geometry">
+    <rect>
+     <x>870</x>
+     <y>320</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="right0Label">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>270</y>
+     <width>91</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="leftAvgLabel">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>600</y>
+     <width>231</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rightAvgLabel">
+   <property name="geometry">
+    <rect>
+     <x>770</x>
+     <y>600</y>
+     <width>231</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>No Data</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>600</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>AVG : </string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>600</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>AVG : </string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

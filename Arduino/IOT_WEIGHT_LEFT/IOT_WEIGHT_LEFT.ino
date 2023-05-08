@@ -10,12 +10,18 @@
 
 #define WEIGHT_TOPIC "WEIGHT_230507/LEFT"
 int count = 0;
+float cf = 19.5;
 
 const char*   mqttServer = "138.2.126.137";
 const int     mqttPort = 1883;
 const char*   mqttUser = "chan";
 const char*   mqttPassword = "chan";
 
+int FSR_0 = 36;
+int FSR_1 = 39;
+int FSR_2 = 34;
+int FSR_3 = 35;
+int FSR_4 = 32;
 
 char eRead[30];
 byte len;
@@ -46,6 +52,16 @@ String responseHTML = ""
     "   return string.split(' ').join('');"
     "}</script></html>";
 
+
+float getFsrData(int analogPin)
+{
+  float vout; 
+  int ffsdata = 0;
+  ffsdata = analogRead(analogPin);
+  vout = (ffsdata * 5.0) / 1023.0; 
+  vout = vout * cf ;
+  return vout;
+}
 
 void setup() 
 {
@@ -93,13 +109,14 @@ void loop() {
     String jsonString;
     StaticJsonDocument<200> sensorDataJson;
 
-    sensorDataJson["left_0"] = count;
-    sensorDataJson["left_1"] = count;
-    sensorDataJson["left_2"] = count;
-    sensorDataJson["left_3"] = count;
-    sensorDataJson["left_4"] = count++; 
+    sensorDataJson["left_0"] = getFsrData(FSR_0);
+    sensorDataJson["left_1"] = getFsrData(FSR_1);
+    sensorDataJson["left_2"] = getFsrData(FSR_2);
+    sensorDataJson["left_3"] = getFsrData(FSR_3);
+    sensorDataJson["left_4"] = getFsrData(FSR_4); 
     serializeJson(sensorDataJson, jsonString);
     client.publish(WEIGHT_TOPIC, jsonString.c_str());
+    // Serial.println(jsonString.c_str());
   }
   client.loop();
 }
