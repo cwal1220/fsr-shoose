@@ -117,6 +117,11 @@ void loop() {
     serializeJson(sensorDataJson, jsonString);
     client.publish(WEIGHT_TOPIC, jsonString.c_str());
     // Serial.println(jsonString.c_str());
+    Serial.print("왼발센서 0 : "); Serial.print(sensorDataJson["left_0"]); Serial.print("\t");
+    Serial.print("왼발센서 1 : "); Serial.print(sensorDataJson["left_1"]); Serial.print("\t");
+    Serial.print("왼발센서 2 : "); Serial.print(sensorDataJson["left_2"]); Serial.print("\t");
+    Serial.print("왼발센서 3 : "); Serial.print(sensorDataJson["left_3"]); Serial.print("\t");
+    Serial.print("왼발센서 4 : "); Serial.print(sensorDataJson["left_4"]); Serial.print("\n");
   }
   client.loop();
 }

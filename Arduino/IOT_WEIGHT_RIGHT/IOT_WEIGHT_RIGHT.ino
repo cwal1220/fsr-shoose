@@ -114,7 +114,12 @@ void loop() {
     sensorDataJson["right_3"] = getFsrData(FSR_3);
     sensorDataJson["right_4"] = getFsrData(FSR_4);
     serializeJson(sensorDataJson, jsonString);
-    client.publish(WEIGHT_TOPIC, jsonString.c_str());
+    // client.publish(WEIGHT_TOPIC, jsonString.c_str());
+    Serial.print("오른발센서 0 : "); Serial.print(sensorDataJson["right_0"]); Serial.print("\t");
+    Serial.print("오른발센서 1 : "); Serial.print(sensorDataJson["right_1"]); Serial.print("\t");
+    Serial.print("오른발센서 2 : "); Serial.print(sensorDataJson["right_2"]); Serial.print("\t");
+    Serial.print("오른발센서 3 : "); Serial.print(sensorDataJson["right_3"]); Serial.print("\t");
+    Serial.print("오른발센서 4 : "); Serial.print(sensorDataJson["right_4"]); Serial.print("\n");
   }
   client.loop();
 }
